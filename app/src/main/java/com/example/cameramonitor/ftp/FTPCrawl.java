@@ -1,19 +1,10 @@
 package com.example.cameramonitor.ftp;
 
-import org.apache.commons.net.ftp.*;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.IOException;
-import java.net.SocketException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import org.apache.commons.net.ftp.*;
-
-import java.io.IOException;
-import java.net.SocketException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,9 +20,22 @@ public class FTPCrawl {
         this.server = server;
         this.port = port;
         this.count = count;
-        client = new FTPClient();
+        this.client = new FTPClient();
 
 
+    }
+
+    public FTPCrawl(String server, int port, String password) {
+        this.password = password;
+        this.server = server;
+        this.port = port;
+        this.client = new FTPClient();
+    }
+
+    public FTPCrawl(String server, int port){
+        this.server = server;
+        this.port = port;
+        this.client = new FTPClient();
     }
 
     public void connect() {
@@ -69,12 +73,11 @@ public class FTPCrawl {
     }
 
     public List<String> getList() {
-        this.count = count;
-        boolean error = false;
         try {
             int reply;
             client.connect(this.server, this.port);
             client.login(this.server, this.password);
+            //client.login("", "");
             System.out.println("Connected to " + server + ".");
             System.out.print(client.getReplyString());
 
@@ -95,7 +98,6 @@ public class FTPCrawl {
             return list;
 
         } catch(IOException e) {
-            error = true;
             e.printStackTrace();
         } finally {
             if(client.isConnected()) {

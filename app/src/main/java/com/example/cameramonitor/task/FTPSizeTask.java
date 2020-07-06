@@ -3,7 +3,10 @@ package com.example.cameramonitor.task;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.NumberPicker;
 
+import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 
 import java.io.IOException;
@@ -11,9 +14,12 @@ import java.io.IOException;
 public class FTPSizeTask extends AsyncTask<FTPCrawl, String, Integer> {
     @SuppressLint("StaticFieldLeak")
     View view;
-    public FTPSizeTask(View view) {
+    @SuppressLint("StaticFieldLeak")
+    ListView listView;
+    public FTPSizeTask(View view, ListView listView) {
         super();
         this.view = view;
+        this.listView = listView;
     }
 
     @Override
@@ -36,6 +42,11 @@ public class FTPSizeTask extends AsyncTask<FTPCrawl, String, Integer> {
     @Override
     protected void onPostExecute(Integer integer) {
         super.onPostExecute(integer);
-        //TODO: display max choosable items
+        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.number_feed);
+
+        numberPicker.setMaxValue(integer);
+        numberPicker.setMinValue(0);
+
+
     }
 }

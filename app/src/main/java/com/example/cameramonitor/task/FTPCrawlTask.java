@@ -4,13 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
-import com.example.cameramonitor.MainActivity;
 import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FTPCrawlTask extends AsyncTask<FTPCrawl, String, List<String>> {
@@ -25,15 +26,24 @@ public class FTPCrawlTask extends AsyncTask<FTPCrawl, String, List<String>> {
 
     @Override
     protected void onPostExecute(List<String> strings) {
-        String size = Integer.toString(strings.size());
-        StringBuilder builder = new StringBuilder("finished loading ");
-        if (strings.size() == 0){
-            builder.append("1 entry");
+        int size = strings.size();
+        StringBuilder builder = new StringBuilder("finished loading");
+        if (size == 0){
+            builder.append(", something went wrong there");
+        } else if (size == 1){
+            builder.append(" 1 entry");
         } else {
-            builder.append(size).append(" entries");
+            builder.append(" ").append(size).append(" entries");
         }
         Toast.makeText(listView.getContext(), builder.toString(), Toast.LENGTH_SHORT).show();
-        listView.setAdapter(new ArrayAdapter<String>(listView.getContext(), android.R.layout.simple_list_item_1, strings));
+        listView.setAdapter(new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, strings));
+
+        NumberPicker numberPicker = (NumberPicker) listView.getRootView().findViewById(R.id.number_feed);
+        numberPicker.setValue(size);
+        numberPicker.setWrapSelectorWheel(true);
+
+
+
     }
 
     @Override
@@ -51,6 +61,7 @@ public class FTPCrawlTask extends AsyncTask<FTPCrawl, String, List<String>> {
             patchList.add("something went wrong there");
             return patchList;
         }
+        Collections.reverse(payLoad);
 
         return payLoad;
     }
