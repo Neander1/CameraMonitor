@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CameraMonitor</string>
+    <string name="tab_text_1">Camera</string>
+    <string name="tab_text_2">Feed</string>
+    <string name="tab_text_3">Settings</string>
+    <string name="password">1234</string>
+    <string name="address">kamera</string>
+    <string name="number_feed_hint">Anzahl</string>
+    <string name="feed_imageview_contentdescription">image</string>
+
+
+</resources>

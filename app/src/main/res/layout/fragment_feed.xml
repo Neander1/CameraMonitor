@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.FeedFragment">
+
+
+    <ListView
+        android:id="@+id/list_view_feed"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <ImageView
+        android:id="@+id/image_view_feed"
+        android:layout_width="385dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/number_feed_hint" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/integer_feed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="numberSigned"
+            android:hint="@string/number_feed_hint" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_feed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:src="@drawable/ic_refresh" />
+    </FrameLayout>
+
+</LinearLayout>
