@@ -1,13 +1,10 @@
 package com.example.cameramonitor.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -72,7 +69,7 @@ public class CameraFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-        WebView webView = (WebView) view.findViewById(R.id.web_view_camera);
+        final WebView webView = (WebView) view.findViewById(R.id.web_view_camera);
         webView.loadUrl(URL);
         webView.setInitialScale(135);
         //webView.loadUrl("http://www.google.com");
@@ -91,9 +88,13 @@ public class CameraFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Schnappschuss", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Reloading ...", Toast.LENGTH_SHORT).show();
+
+                webView.reload();
             }
         });
+
+
         return view;
     }
 

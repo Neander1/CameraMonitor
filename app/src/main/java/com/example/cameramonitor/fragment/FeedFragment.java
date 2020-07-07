@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 import com.example.cameramonitor.task.FTPCrawlTask;
-import com.example.cameramonitor.task.FTPSizeTask;
+import com.example.cameramonitor.task.FeedCleanUpTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -82,22 +82,26 @@ public class FeedFragment extends Fragment {
         numberPicker = (NumberPicker) view.findViewById(R.id.number_feed);
         button = (FloatingActionButton) view.findViewById(R.id.btn_feed);
 
-        FTPSizeTask sizeTask = new FTPSizeTask(view, listView);
+        FeedCleanUpTask sizeTask = new FeedCleanUpTask(view, listView);
         sizeTask.execute((FTPCrawl) new FTPCrawl("kamera", 1024));
 
-        int initial = 10;
-        numberPicker.setMinValue(0);
-        numberPicker.setValue(initial);
-        loadListItems(initial);
 
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
+                loadListItems(newValue);
+                numberPicker.setValue(newValue);
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Reloading ...", Toast.LENGTH_SHORT).show();
 
-                int count = numberPicker.getValue();
-                loadListItems(count);
+                FeedCleanUpTask task = new FeedCleanUpTask(view, listView);
+                task.execute(new FTPCrawl("kamera", 1024));
+
             }
         });
 
@@ -131,12 +135,13 @@ public class FeedFragment extends Fragment {
                 .append(s2).append(time[1]).append(s2).append(time[2])
                 .append(".jpg");
 
-        Picasso.get().load(builder.toString()).fit().centerInside().into((ImageView) Objects.requireNonNull(getActivity()).findViewById(R.id.image_view_feed));
+        Picasso.get().load(builder.toString()).fit().centerInside()
+                .into((ImageView) Objects.requireNonNull(getActivity()).findViewById(R.id.image_view_feed));
 
 
     }
 
-    private void loadListItems(int count){
+    public void loadListItems(int count){
         FTPCrawlTask task = new FTPCrawlTask(listView);
         task.execute((FTPCrawl) new FTPCrawl("kamera", 1024, "1234", count));
 

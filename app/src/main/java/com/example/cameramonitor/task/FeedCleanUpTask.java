@@ -11,12 +11,12 @@ import com.example.cameramonitor.ftp.FTPCrawl;
 
 import java.io.IOException;
 
-public class FTPSizeTask extends AsyncTask<FTPCrawl, String, Integer> {
+public class FeedCleanUpTask extends AsyncTask<FTPCrawl, String, Integer> {
     @SuppressLint("StaticFieldLeak")
     View view;
     @SuppressLint("StaticFieldLeak")
     ListView listView;
-    public FTPSizeTask(View view, ListView listView) {
+    public FeedCleanUpTask(View view, ListView listView) {
         super();
         this.view = view;
         this.listView = listView;
@@ -32,6 +32,7 @@ public class FTPSizeTask extends AsyncTask<FTPCrawl, String, Integer> {
             e.printStackTrace();
         }
         return size;
+
     }
 
     @Override
@@ -41,11 +42,16 @@ public class FTPSizeTask extends AsyncTask<FTPCrawl, String, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
-        super.onPostExecute(integer);
-        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.number_feed);
+        NumberPicker numberPicker = (NumberPicker) view.getRootView().findViewById(R.id.number_feed);
 
         numberPicker.setMaxValue(integer);
         numberPicker.setMinValue(0);
+        numberPicker.setValue(integer);
+
+        FTPCrawlTask task = new FTPCrawlTask(listView);
+        task.execute((FTPCrawl) new FTPCrawl("kamera", 1024, "1234", integer));
+
+
 
 
     }

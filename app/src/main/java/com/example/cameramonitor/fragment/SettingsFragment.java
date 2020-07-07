@@ -1,7 +1,6 @@
 package com.example.cameramonitor.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.webkit.WebViewClient;
 import androidx.fragment.app.Fragment;
 
 import com.example.cameramonitor.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +65,7 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        WebView webView = (WebView) view.findViewById(R.id.web_view_settings);
+        final WebView webView = (WebView) view.findViewById(R.id.web_view_settings);
         webView.loadUrl(URL);
         webView.setInitialScale(0);
         WebSettings settings = webView.getSettings();
@@ -75,6 +75,14 @@ public class SettingsFragment extends Fragment {
         settings.setLoadWithOverviewMode(true);
 
         webView.setWebViewClient(new WebViewClient());
+
+        FloatingActionButton button = (FloatingActionButton) view.findViewById(R.id.btn_settings);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webView.loadUrl(URL);
+            }
+        });
         return view;
     }
 }

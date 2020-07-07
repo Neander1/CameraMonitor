@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
-import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class FTPCrawlTask extends AsyncTask<FTPCrawl, String, List<String>> {
         int size = strings.size();
         StringBuilder builder = new StringBuilder("finished loading");
         if (size == 0){
-            builder.append(", something went wrong there");
+            builder.append(", no entries available");
         } else if (size == 1){
             builder.append(" 1 entry");
         } else {
@@ -37,13 +35,6 @@ public class FTPCrawlTask extends AsyncTask<FTPCrawl, String, List<String>> {
         }
         Toast.makeText(listView.getContext(), builder.toString(), Toast.LENGTH_SHORT).show();
         listView.setAdapter(new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, strings));
-
-        NumberPicker numberPicker = (NumberPicker) listView.getRootView().findViewById(R.id.number_feed);
-        numberPicker.setValue(size);
-        numberPicker.setWrapSelectorWheel(true);
-
-
-
     }
 
     @Override
