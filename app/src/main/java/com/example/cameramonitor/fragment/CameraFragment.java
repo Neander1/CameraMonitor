@@ -67,21 +67,16 @@ public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         final WebView webView = (WebView) view.findViewById(R.id.web_view_camera);
         webView.loadUrl(URL);
-        webView.setInitialScale(135);
+        webView.setInitialScale(1);
         //webView.loadUrl("http://www.google.com");
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setSupportZoom(true);
-        //settings.setBuiltInZoomControls(true);
-        //settings.setDisplayZoomControls(true);
-
-        //settings.setLoadWithOverviewMode(true);
-        //settings.setUseWideViewPort(true);
-
+        settings.supportZoom();
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
         webView.setWebViewClient(new WebViewClient());
 
         FloatingActionButton button = (FloatingActionButton) view.findViewById(R.id.btn_camera);
@@ -97,5 +92,4 @@ public class CameraFragment extends Fragment {
 
         return view;
     }
-
 }
