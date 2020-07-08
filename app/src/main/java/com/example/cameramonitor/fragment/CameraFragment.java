@@ -70,7 +70,7 @@ public class CameraFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         final WebView webView = (WebView) view.findViewById(R.id.web_view_camera);
         webView.loadUrl(URL);
-        webView.setInitialScale(1);
+        webView.setInitialScale(0);
         //webView.loadUrl("http://www.google.com");
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

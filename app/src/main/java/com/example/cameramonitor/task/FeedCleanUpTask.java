@@ -10,6 +10,7 @@ import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FeedCleanUpTask extends AsyncTask<FTPCrawl, String, Integer> {
     @SuppressLint("StaticFieldLeak")
@@ -46,13 +47,21 @@ public class FeedCleanUpTask extends AsyncTask<FTPCrawl, String, Integer> {
 
         numberPicker.setMaxValue(integer);
         numberPicker.setMinValue(0);
+
         numberPicker.setValue(integer);
 
         FTPCrawlTask task = new FTPCrawlTask(listView);
         task.execute((FTPCrawl) new FTPCrawl("kamera", 1024, "1234", integer));
+    }
 
-
-
-
+    private String[] setDisplayedValues(int maxValue){
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i <= maxValue; i++) {
+            if (i % 5 == 0){
+                list.add(String.valueOf(i));
+            }
+        }
+        list.add(String.valueOf(maxValue));
+        return list.toArray(new String[0]);
     }
 }

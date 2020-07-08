@@ -27,6 +27,16 @@
             android:contentDescription="@string/number_feed_hint" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_delete_feed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:src="@android:drawable/ic_menu_delete"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_feed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

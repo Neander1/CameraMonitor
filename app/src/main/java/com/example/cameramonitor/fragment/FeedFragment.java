@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.cameramonitor.R;
 import com.example.cameramonitor.ftp.FTPCrawl;
 import com.example.cameramonitor.task.FTPCrawlTask;
+import com.example.cameramonitor.task.FTPDeleteItemsTask;
 import com.example.cameramonitor.task.FeedCleanUpTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
@@ -37,7 +38,8 @@ public class FeedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     NumberPicker numberPicker;
-    FloatingActionButton button;
+    FloatingActionButton buttonReload;
+    FloatingActionButton buttonDelete;
 
     /**
      * Use this factory method to create a new instance of
@@ -80,21 +82,26 @@ public class FeedFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.list_view_feed);
         numberPicker = (NumberPicker) view.findViewById(R.id.number_feed);
-        button = (FloatingActionButton) view.findViewById(R.id.btn_feed);
+        buttonReload = (FloatingActionButton) view.findViewById(R.id.btn_feed);
+        buttonDelete = (FloatingActionButton) view.findViewById(R.id.btn_delete_feed);
+
 
         FeedCleanUpTask sizeTask = new FeedCleanUpTask(view, listView);
         sizeTask.execute((FTPCrawl) new FTPCrawl("kamera", 1024));
 
-
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        
+        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int oldValue, int newValue) {
-                loadListItems(newValue);
-                numberPicker.setValue(newValue);
+            public void onScrollStateChange(NumberPicker numberPicker, int i) {
+                if (i == SCROLL_STATE_IDLE){
+                    int newValue = numberPicker.getValue();
+                    loadListItems(newValue);
+                    numberPicker.setValue(newValue);
+                }
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonReload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Reloading ...", Toast.LENGTH_SHORT).show();
@@ -113,6 +120,16 @@ public class FeedFragment extends Fragment {
                 String target = o.toString();
                 Toast.makeText(getContext(), target, Toast.LENGTH_SHORT).show();
                 loadImage(target);
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Deleting entries older than 2 weeks ...", Toast.LENGTH_SHORT).show();
+
+                FTPDeleteItemsTask task = new FTPDeleteItemsTask(view, listView);
+                task.execute();
             }
         });
         return view;

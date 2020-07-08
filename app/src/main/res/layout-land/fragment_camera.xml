@@ -6,9 +6,10 @@
     tools:context=".fragment.CameraFragment">
 
     <WebView
+        android:id="@+id/web_view_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/web_view_camera"/>
+        android:gravity="center_vertical|center_horizontal" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_camera"
