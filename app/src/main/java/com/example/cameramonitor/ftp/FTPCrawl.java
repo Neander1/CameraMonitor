@@ -147,15 +147,6 @@ public class FTPCrawl {
 
     }
 
-    public void deleteItem(String target) throws IOException {
-        
-
-
-        connect();
-        client.deleteFile(target);
-        disconnect();
-    }
-
     public FTPClient getClient() {
         return client;
     }
